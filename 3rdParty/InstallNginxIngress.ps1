@@ -1,0 +1,1 @@
+helm install ingress-nginx -n nginx --create-namespace "$PSScriptRoot/ingress-nginx"

@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: alex-app-ingress
+spec:
+  rules:
+  - host: "flux.aks"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: alex-app-service
+            port:
+              number: 80
