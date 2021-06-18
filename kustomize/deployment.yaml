@@ -18,6 +18,7 @@ spec:
       containers:
       - name: alexcontainerapp
         image: alexhomeacr.azurecr.io/alexcontainerapp:v1
+        imagePullPolicy: Always
         ports:
         - name: http
           containerPort: 8080
