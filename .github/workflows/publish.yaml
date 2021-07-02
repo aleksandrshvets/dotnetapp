@@ -8,6 +8,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      with:
+        persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
+        fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
 
     - name: Login to GitHub Container Registry
       uses: docker/login-action@v1
@@ -16,7 +19,52 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.PACKAGES_PAT }}
 
-    - name: Build the hello-world Docker image
+    - name: Build the alexcontainerapp Docker image
       run: |
-        docker build ./src/AlexContainerApp/ --tag ghcr.io/aleksandrshvets/alexcontainerapp:latest
-        docker push ghcr.io/aleksandrshvets/alexcontainerapp:latest
+        docker build ./src/AlexContainerApp/ --tag ghcr.io/aleksandrshvets/alexcontainerapp:${GITHUB_SHA::8}
+        docker push ghcr.io/aleksandrshvets/alexcontainerapp:${GITHUB_SHA::8}
+        
+    - name: Create file
+      run: |
+        echo "apiVersion: apps/v1" > example.yaml
+        echo "kind: Deployment" >> example.yaml
+        echo "metadata:" >> example.yaml
+        echo "  name: alex-app-deployment" >> example.yaml
+        echo "  labels:" >> example.yaml
+        echo "    app: alex-app" >> example.yaml
+        echo "spec:" >> example.yaml
+        echo "  selector:" >> example.yaml
+        echo "    matchLabels:" >> example.yaml
+        echo "      app: alex-app" >> example.yaml
+        echo "  template:" >> example.yaml
+        echo "    metadata:" >> example.yaml
+        echo "      labels:" >> example.yaml
+        echo "        app: alex-app" >> example.yaml
+        echo "    spec:" >> example.yaml
+        echo "      imagePullSecrets:" >> example.yaml
+        echo "      - name: regcred" >> example.yaml
+        echo "      containers:" >> example.yaml
+        echo "      - name: alexcontainerapp" >> example.yaml
+        echo "        image: alexhomeacr.azurecr.io/alexcontainerapp:${GITHUB_SHA::8}" >> example.yaml
+        echo "        imagePullPolicy: Always" >> example.yaml
+        echo "        ports:" >> example.yaml
+        echo "        - name: http" >> example.yaml
+        echo "          containerPort: 8080" >> example.yaml
+        echo "          protocol: TCP" >> example.yaml
+        echo "        resources:" >> example.yaml
+        echo "          limits:" >> example.yaml
+        echo "            cpu: 2000m" >> example.yaml
+        echo "            memory: 512Mi" >> example.yaml
+        echo "          requests:" >> example.yaml
+        echo "            cpu: 100m" >> example.yaml
+        echo "            memory: 64Mi" >> example.yaml
+    - name: Commit files
+      run: |
+        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git commit -m "Add example" -a
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.PUSH_PULL_PAT }}
+        branch: ${{ github.ref }}
