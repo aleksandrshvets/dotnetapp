@@ -18,7 +18,7 @@ spec:
       - name: regcred
       containers:
       - name: alexcontainerapp
-        image: ghcr.io/aleksandrshvets/alexcontainerapp:v1
+        image: ghcr.io/aleksandrshvets/alexcontainerapp:b1045faf
         imagePullPolicy: Always
         ports:
         - name: http

@@ -63,7 +63,7 @@ jobs:
         git config --local user.email "aliaksandr.shvets@gmail.com"
         git config --local user.name "aliaksandrshvets"
         git add kustomize/deployment.yaml
-        git commit -m "Add example" -a
+        git commit -m "[skip ci] Change image tag to ${GITHUB_SHA::8}" -a
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
