@@ -24,48 +24,48 @@ jobs:
         docker build ./src/AlexContainerApp/ --tag ghcr.io/aleksandrshvets/alexcontainerapp:${GITHUB_SHA::8}
         docker push ghcr.io/aleksandrshvets/alexcontainerapp:${GITHUB_SHA::8}
         
-    - name: Create file
-      run: |
-        echo "apiVersion: apps/v1" > kustomize/deployment.yaml
-        echo "kind: Deployment" >> kustomize/deployment.yaml
-        echo "metadata:" >> kustomize/deployment.yaml
-        echo "  name: alex-app-deployment" >> kustomize/deployment.yaml
-        echo "  labels:" >> kustomize/deployment.yaml
-        echo "    app: alex-app" >> kustomize/deployment.yaml
-        echo "spec:" >> kustomize/deployment.yaml
-        echo "  selector:" >> kustomize/deployment.yaml
-        echo "    matchLabels:" >> kustomize/deployment.yaml
-        echo "      app: alex-app" >> kustomize/deployment.yaml
-        echo "  template:" >> kustomize/deployment.yaml
-        echo "    metadata:" >> kustomize/deployment.yaml
-        echo "      labels:" >> kustomize/deployment.yaml
-        echo "        app: alex-app" >> kustomize/deployment.yaml
-        echo "    spec:" >> kustomize/deployment.yaml
-        echo "      imagePullSecrets:" >> kustomize/deployment.yaml
-        echo "      - name: regcred-github" >> kustomize/deployment.yaml
-        echo "      containers:" >> kustomize/deployment.yaml
-        echo "      - name: alexcontainerapp" >> kustomize/deployment.yaml
-        echo "        image: ghcr.io/aleksandrshvets/alexcontainerapp:${GITHUB_SHA::8}" >> kustomize/deployment.yaml
-        echo "        imagePullPolicy: Always" >> kustomize/deployment.yaml
-        echo "        ports:" >> kustomize/deployment.yaml
-        echo "        - name: http" >> kustomize/deployment.yaml
-        echo "          containerPort: 8080" >> kustomize/deployment.yaml
-        echo "          protocol: TCP" >> kustomize/deployment.yaml
-        echo "        resources:" >> kustomize/deployment.yaml
-        echo "          limits:" >> kustomize/deployment.yaml
-        echo "            cpu: 2000m" >> kustomize/deployment.yaml
-        echo "            memory: 512Mi" >> kustomize/deployment.yaml
-        echo "          requests:" >> kustomize/deployment.yaml
-        echo "            cpu: 100m" >> kustomize/deployment.yaml
-        echo "            memory: 64Mi" >> kustomize/deployment.yaml
-    - name: Commit files
-      run: |
-        git config --local user.email "aliaksandr.shvets@gmail.com"
-        git config --local user.name "aliaksandrshvets"
-        git add kustomize/deployment.yaml
-        git commit -m "[skip ci] Change image tag to ${GITHUB_SHA::8}" -a
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.PUSH_PULL_PAT }}
-        branch: ${{ github.ref }}
+    # - name: Create file
+    #   run: |
+    #     echo "apiVersion: apps/v1" > kustomize/deployment.yaml
+    #     echo "kind: Deployment" >> kustomize/deployment.yaml
+    #     echo "metadata:" >> kustomize/deployment.yaml
+    #     echo "  name: alex-app-deployment" >> kustomize/deployment.yaml
+    #     echo "  labels:" >> kustomize/deployment.yaml
+    #     echo "    app: alex-app" >> kustomize/deployment.yaml
+    #     echo "spec:" >> kustomize/deployment.yaml
+    #     echo "  selector:" >> kustomize/deployment.yaml
+    #     echo "    matchLabels:" >> kustomize/deployment.yaml
+    #     echo "      app: alex-app" >> kustomize/deployment.yaml
+    #     echo "  template:" >> kustomize/deployment.yaml
+    #     echo "    metadata:" >> kustomize/deployment.yaml
+    #     echo "      labels:" >> kustomize/deployment.yaml
+    #     echo "        app: alex-app" >> kustomize/deployment.yaml
+    #     echo "    spec:" >> kustomize/deployment.yaml
+    #     echo "      imagePullSecrets:" >> kustomize/deployment.yaml
+    #     echo "      - name: regcred-github" >> kustomize/deployment.yaml
+    #     echo "      containers:" >> kustomize/deployment.yaml
+    #     echo "      - name: alexcontainerapp" >> kustomize/deployment.yaml
+    #     echo "        image: ghcr.io/aleksandrshvets/alexcontainerapp:${GITHUB_SHA::8}" >> kustomize/deployment.yaml
+    #     echo "        imagePullPolicy: Always" >> kustomize/deployment.yaml
+    #     echo "        ports:" >> kustomize/deployment.yaml
+    #     echo "        - name: http" >> kustomize/deployment.yaml
+    #     echo "          containerPort: 8080" >> kustomize/deployment.yaml
+    #     echo "          protocol: TCP" >> kustomize/deployment.yaml
+    #     echo "        resources:" >> kustomize/deployment.yaml
+    #     echo "          limits:" >> kustomize/deployment.yaml
+    #     echo "            cpu: 2000m" >> kustomize/deployment.yaml
+    #     echo "            memory: 512Mi" >> kustomize/deployment.yaml
+    #     echo "          requests:" >> kustomize/deployment.yaml
+    #     echo "            cpu: 100m" >> kustomize/deployment.yaml
+    #     echo "            memory: 64Mi" >> kustomize/deployment.yaml
+    # - name: Commit files
+    #   run: |
+    #     git config --local user.email "aliaksandr.shvets@gmail.com"
+    #     git config --local user.name "aliaksandrshvets"
+    #     git add kustomize/deployment.yaml
+    #     git commit -m "[skip ci] Change image tag to ${GITHUB_SHA::8}" -a
+    # - name: Push changes
+    #   uses: ad-m/github-push-action@master
+    #   with:
+    #     github_token: ${{ secrets.PUSH_PULL_PAT }}
+    #     branch: ${{ github.ref }}
