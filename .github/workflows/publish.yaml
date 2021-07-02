@@ -26,7 +26,7 @@ jobs:
         
     - name: Create file
       run: |
-        echo "apiVersion: apps/v1" >> kustomize/deployment.yaml
+        echo "apiVersion: apps/v1" > kustomize/deployment.yaml
         echo "kind: Deployment" >> kustomize/deployment.yaml
         echo "metadata:" >> kustomize/deployment.yaml
         echo "  name: alex-app-deployment" >> kustomize/deployment.yaml
