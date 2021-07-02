@@ -11,17 +11,21 @@ RUN dotnet publish -c Debug -o out
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:3.1
-WORKDIR /app
+LABEL org.opencontainers.image.source="https://github.com/aleksandrshvets/dotnetapp/"
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends unzip \
+    && rm -rf /var/lib/apt/lists/* \
+    && curl -sSL https://aka.ms/getvsdbgsh
 
-RUN curl -sSL \
-   https://aka.ms/getvsdbgsh | bash /dev/stdin -v vs2019 -l /home/alexuser/.vs-debugger
+WORKDIR /app
 
 COPY --from=build-env /app/out .
 
 ARG USER_NAME=alexuser
 
+#RUN mkdir /home/${USER_NAME}
 RUN groupadd -r ${USER_NAME} &&\
-    useradd -r -l -g ${USER_NAME} ${USER_NAME}
+    useradd -r -l -m -g ${USER_NAME} ${USER_NAME}
 
 USER ${USER_NAME}
 
