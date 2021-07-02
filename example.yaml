@@ -17,7 +17,7 @@ spec:
       - name: regcred
       containers:
       - name: alexcontainerapp
-        image: alexhomeacr.azurecr.io/alexcontainerapp:d7e3ce44
+        image: alexhomeacr.azurecr.io/alexcontainerapp:8c4660bf
         imagePullPolicy: Always
         ports:
         - name: http
