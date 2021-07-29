@@ -28,6 +28,7 @@ jobs:
     - name: Checkout environment repo
       uses: actions/checkout@v2
       with:
+        persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
         repository: aleksandrshvets/environment-repo
         path: environment
         
@@ -72,4 +73,4 @@ jobs:
         git config --local user.name "aliaksandrshvets"
         git add kustomize/deployment.yaml
         git commit -m "[skip ci] Change image tag to ${GITHUB_SHA::8}" -a
-        git push --force --quiet "https://aleksandrshvets:${{ secrets.PUSH_PULL_PAT }}@github.com/aleksandrshvets/environment-repo"
+        git push --force --quiet "https://aleksandrshvets:${{ secrets.PUSH_PULL_PAT }}@github.com/aleksandrshvets/environment-repo" main:main

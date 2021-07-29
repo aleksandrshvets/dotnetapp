@@ -12,10 +12,6 @@ RUN dotnet publish -c Debug -o out
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:3.1
 LABEL org.opencontainers.image.source="https://github.com/aleksandrshvets/dotnetapp/"
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends unzip \
-    && rm -rf /var/lib/apt/lists/* \
-    && curl -sSL https://aka.ms/getvsdbgsh
 
 WORKDIR /app
 
