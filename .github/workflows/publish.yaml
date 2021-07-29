@@ -72,10 +72,4 @@ jobs:
         git config --local user.name "aliaksandrshvets"
         git add kustomize/deployment.yaml
         git commit -m "[skip ci] Change image tag to ${GITHUB_SHA::8}" -a
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        directory: ./environment
-        repository: aleksandrshvets/environment-repo
-        github_token: ${{ secrets.PUSH_PULL_PAT }}
-        branch: main
+        git push --force --quiet "https://aliaksandrshvets:${{ secrets.PUSH_PULL_PAT }}@github.com/aleksandrshvets/environment-repo" main:main
