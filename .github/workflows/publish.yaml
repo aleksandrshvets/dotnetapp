@@ -53,7 +53,7 @@ jobs:
         echo "      - name: regcred-github" >> environment/kustomize/deployment.yaml
         echo "      containers:" >> environment/kustomize/deployment.yaml
         echo "      - name: alexcontainerapp" >> environment/kustomize/deployment.yaml
-        echo "        image: ghcr.io/aleksandrshvets/alexcontainerapp:${GITHUB_SHA::8}" >> environment/kustomize/deployment.yaml
+        echo "        image: ghcr.io/aleksandrshvets/alexcontainerapp1:${GITHUB_SHA::8}" >> environment/kustomize/deployment.yaml
         echo "        imagePullPolicy: Always" >> environment/kustomize/deployment.yaml
         echo "        ports:" >> environment/kustomize/deployment.yaml
         echo "        - name: http" >> environment/kustomize/deployment.yaml
