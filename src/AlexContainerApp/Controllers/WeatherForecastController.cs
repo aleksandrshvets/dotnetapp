@@ -13,7 +13,7 @@ namespace AlexContainerApp.Controllers
         {
             yield return new WeatherForecast
             {
-                Summary = $"DEMO: {Environment.GetEnvironmentVariable("HOSTNAME") ?? "No host info"}"
+                Summary = $"DEMO2: {Environment.GetEnvironmentVariable("HOSTNAME") ?? "No host info"}"
             };
         }
     }
